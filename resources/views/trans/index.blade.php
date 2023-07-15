@@ -153,11 +153,11 @@
                 {
                   return '<span class="badge bg-success">Terbayar</span>';    
                 }
-                else if(row.payment == '1' && row.payment_photo != null)   
+                else if(row.payment_status != '2' && row.payment_photo != null)   
                 {
                   return '<span class="badge bg-success">Terbayar</span>';    
                 }
-                else if(row.payment == '0' && row.payment_photo != null)   
+                else if(row.payment_status == '2' && row.payment_photo != null)   
                 {
                   return '<span class="badge bg-default">Bukti Pembayaran Tidak Valid</span>';    
                 }
@@ -168,11 +168,11 @@
 
             }, name: 'payment_photo'},
             {data: 'payment_status', render: function ( data, type, row, meta ) {
-                if(row.payment == 'Tunnai' || row.payment_status == '1')   
+                if(row.payment == 'Tunai' || row.payment_status == '1')   
                 {
                   return '<span class="badge bg-info">Terverifikasi</span>';    
                 }
-                else if(row.payment_status == '0')   
+                else if(row.payment_status == '0' || row.payment_status  == '2')   
                 {
                   return '<span class="badge bg-danger">Belum Terverifikasi</span>'; 
                 }

@@ -277,7 +277,6 @@ class Trans extends Authenticatable
 //dd($id);
         $udata = array(
                     'payment_photo'     => $request,
-                    'payment' => '1'
                     );
 
         $data = Trans::where('order_id','=',$order_id)->update($udata);
@@ -324,15 +323,15 @@ class Trans extends Authenticatable
     
     public function cancel_bayar($order_id){
         $data = Trans::select('*')->where('order_id', '=' ,$order_id)->first();
-        if($data['payment'] == '1'){
-            $set = '0';
+        if($data['payment_status'] != '2'){
+            $set = '2';
         }else{
-            $set = '1';
+            $set = '0';
         }
         
 
                 $udata = array(
-                            "payment"     =>$set,
+                            "payment_status"     =>$set,
                             );
         
                 $updt = Trans::where("order_id","=",$order_id)->update($udata, ["update_at" => false]);

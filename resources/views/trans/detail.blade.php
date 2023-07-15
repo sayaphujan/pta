@@ -39,7 +39,12 @@ label {
                     </div>
                         @csrf
                         @method('PUT')
-                            
+                    <div class="row mt-3 mb-3">
+                      <div class="col-md-12">
+                        <p style="float:right">@php echo date('d-m-Y H:i:s'); @endphp</p>
+                      </div>
+                    </div>
+
                     <div class="row mt-3 mb-3">
                       <div class="col-md-4">
                         <div class="form-group">
@@ -117,11 +122,11 @@ label {
                     <div class="row mt-3 mb-3">
                       <div class="col-md-12">
                         <label class="label" for="#">Alamat Pengiriman</label>
-                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" placeholder="Alamat Pengiriman" required="required" value="{{ $trans->loc_address1 }}>
+                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" placeholder="Alamat Pengiriman" required="required" value="{{ $trans->loc_address1 }}">
                       </div>
                     </div>
 
-                    <div class="row mt-3 mb-3" style="display: none;">
+                    <div class="row mt-3 mb-3 style="display: none;">
                       <div class="col-md-6">
                         <label class="label" for="#">Latitude</label>
                         <input type="text" class="form-control" name="address_latitude" id="address-latitude" value="{{ $trans->loc_lat }}" readonly="readonly" />
@@ -198,13 +203,13 @@ label {
                               &nbsp;&nbsp;&nbsp;<a href="#" data-target="#modal-default" data-toggle="modal">Kirim Bukti Pembayaran</a></p>
                             @endif
                           @else
-                              @if($trans->payment == '1' && $trans->payment_status == '0' && !empty($trans->payment_photo))
+                              @if($trans->payment_status != '2' && !empty($trans->payment_photo))
                                 <p style="color:green"><b><i>Terbayar</i></b> 
                                 @if(Auth::user()->level == 1)
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <a href={{ url('trans/cancel_bayar/'. $trans->order_id) }}><button type="button" class="btn btn-success">Cancel</button>
                                 @endif
-                              @elseif($trans->payment == '0' && $trans->payment_status == '0' && !empty($trans->payment_photo))
+                              @elseif($trans->payment_status == 2 && !empty($trans->payment_photo))
                               <p style="color:gray"><b><i>Bukti Pembayaran Tidak Valid</i></b> 
                                 @if(Auth::user()->level == 1)
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -213,7 +218,7 @@ label {
                               @endif
                             <br/><br/>
                            <img class="zoom" src="{{ asset('upload/bukti/'.$trans->payment_photo) }}"  width="250px" height="auto"><br/><br/>
-                              @if(Auth()->user()->level == 3 && $trans->payment_status == 0)
+                              @if(Auth()->user()->level == 3 && $trans->payment_status != 1)
                               &nbsp;&nbsp;&nbsp;<a href="#" data-target="#modal-default" data-toggle="modal">Kirim Ulang Bukti Pembayaran</a></p>
                               @endif
                           @endif

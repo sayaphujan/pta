@@ -78,4 +78,4 @@
     </center>
   <script src="{{ asset( 'assets/js/jquery-1.9.1.js') }}"></script>
   <script src="{{ asset( 'vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="https://code.jquery.co
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
