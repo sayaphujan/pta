@@ -20,6 +20,11 @@
     background-color: #ffc107!important;
     text-decoration: none;
   }
+
+  .scrollable {
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
 </style>
   <div class="content-wrapper">
     <div class="content-header">
@@ -53,7 +58,7 @@
                   <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row mt-3">
                       <div class="col-sm-12">
-                        <div class="table-responsive">
+                        <div class="table-responsive scrollable">
                           <table id="tb_user" class="table table-bordered table-hover dataTable dtr-inline collapsed" aria-describedby="tb_user_info" width="100%">
                             <thead>
                               <tr>
@@ -119,7 +124,8 @@
                             "action": newexportaction
                         },
                     ],*/
-        "autoWidth": false,
+        "scrollX" : true,
+        "autoWidth": true,
         "processing": true,
         "serverSide": true,
         "order": [[0, 'desc']],

@@ -141,9 +141,17 @@
             {data: 'fullname', name: 'fullname'},
             {data: 'trans_phone', name: 'trans_phone'},
             {data: 'payment_photo', render: function ( data, type, row, meta ) {
-                if(row.payment == 'Tunai' || row.payment_photo != null)   
+                if(row.payment == 'Tunai')   
                 {
                   return '<span class="badge bg-success">Terbayar</span>';    
+                }
+                else if(row.payment_status != '2' && row.payment_photo != null)   
+                {
+                  return '<span class="badge bg-success">Terbayar</span>';    
+                }
+                else if(row.payment_status == '2' && row.payment_photo != null)   
+                {
+                  return '<span class="badge bg-default">Bukti Pembayaran Tidak Valid</span>';    
                 }
                 else if(row.payment_photo == null)   
                 {
@@ -152,16 +160,15 @@
 
             }, name: 'payment_photo'},
             {data: 'payment_status', render: function ( data, type, row, meta ) {
-                if(row.payment == 'Tunnai' || row.payment_status == '1')   
+                if(row.payment == 'Tunai' || row.payment_status == '1')   
                 {
                   return '<span class="badge bg-info">Terverifikasi</span>';    
                 }
-                else if(row.payment_status == '0')   
+                else if(row.payment_status == '0' || row.payment_status  == '2')   
                 {
                   return '<span class="badge bg-danger">Belum Terverifikasi</span>'; 
                 }
-            }, name: 'payment_status'},
-            {data: 'trans_delivery', render: function ( data, type, row, meta ) {
+            }, name: 'payment_status'},            {data: 'trans_delivery', render: function ( data, type, row, meta ) {
               if(row.trans_delivery == '0')   
                 {
                   if(isAdmin == 4){

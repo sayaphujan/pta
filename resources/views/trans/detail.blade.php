@@ -26,7 +26,7 @@ label {
       <section class="content">
         <div class="card card-outline card-info">
             <div class="card-header"></div>
-                <form method="post"  action="{{ route('trans.update_status', $trans->order_id) }}"  id="myForm" class="form-horizontal">
+                <form method="post" action="{{ route('trans.update_status', $trans->order_id) }}" id="myForm" class="form-horizontal">
                   <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12 col-md-8">
@@ -126,7 +126,7 @@ label {
                       </div>
                     </div>
 
-                    <div class="row mt-3 mb-3 style="display: none;">
+                    <div class="row mt-3 mb-3" style="display: none;">
                       <div class="col-md-6">
                         <label class="label" for="#">Latitude</label>
                         <input type="text" class="form-control" name="address_latitude" id="address-latitude" value="{{ $trans->loc_lat }}" readonly="readonly" />
@@ -207,13 +207,13 @@ label {
                                 <p style="color:green"><b><i>Terbayar</i></b> 
                                 @if(Auth::user()->level == 1)
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href={{ url('trans/cancel_bayar/'. $trans->order_id) }}><button type="button" class="btn btn-success">Cancel</button>
+                                    <a href={{ url('trans/cancel_bayar/'. $trans->order_id) }}><button type="button" class="btn btn-success">Cancel</button></a>
                                 @endif
                               @elseif($trans->payment_status == 2 && !empty($trans->payment_photo))
                               <p style="color:gray"><b><i>Bukti Pembayaran Tidak Valid</i></b> 
                                 @if(Auth::user()->level == 1)
                                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href={{ url('trans/cancel_bayar/'. $trans->order_id) }}><button type="button" class="btn btn-success">Cancel</button>
+                                    <a href={{ url('trans/cancel_bayar/'. $trans->order_id) }}><button type="button" class="btn btn-success">Cancel</button></a>
                                 @endif
                               @endif
                             <br/><br/>
@@ -230,7 +230,7 @@ label {
                         <div class="form-group">
                         
                           <label class="label" for="name">Petugas Pengiriman</label>
-                          <select name="driver" class="form-control @error('driver') is-invalid @enderror" id="driver" aria-describedby="driver" required="required" @if($trans->driver_id >0 || Auth()->user()->level !=  1) readonly="readonly" @endif>
+                          <select name="driver" class="form-control @error('driver') is-invalid @enderror" aria-describedby="driver" required="required" @if($trans->driver_id >0 || Auth()->user()->level !=  1) readonly="readonly" @endif>
                             <option value="">
                             @if($trans->driver_id == 0 &&  Auth()->user()->level !=  1)
                                 Menunggu Petugas
@@ -310,6 +310,7 @@ label {
 <script src="{{ asset( 'vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script>
+  let map, infoWindow;
 function initMap() {
     var loc_lat = {{ $trans->loc_lat }};
     var loc_lng = {{ $trans->loc_lng }};
@@ -337,7 +338,54 @@ function initMap() {
     google.maps.event.addListener(marker, 'click', function() {
       window.location.href = marker.url;
     });
+
+
+     infoWindow = new google.maps.InfoWindow();
+
+    const locationButton = document.createElement("button");
+
+    locationButton.textContent = "Klik untuk menemukan lokasi saya";
+    locationButton.classList.add("custom-map-control-button");
+    locationButton.setAttribute("type", "button");
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    locationButton.addEventListener("click", () => {
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent("Location found.");
+            infoWindow.open(map);
+            map.setCenter(pos);
+          },
+          () => {
+            handleLocationError(true, infoWindow, map.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+
+    });
 }
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+
+      window.initMap = initMap;
   
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUQaOBIQIBCIfWQb3r8-8Vv1-XWLH_aOk&callback=initMap&libraries=places&v=weekly" defer></script>

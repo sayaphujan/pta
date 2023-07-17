@@ -559,6 +559,7 @@ function initMap() {
 
     locationButton.textContent = "Klik untuk menemukan lokasi saya";
     locationButton.classList.add("custom-map-control-button");
+    locationButton.setAttribute("type", "button");
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
     locationButton.addEventListener("click", () => {
       // Try HTML5 geolocation.
