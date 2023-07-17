@@ -150,7 +150,7 @@ label {
                       <div class="col-md-4">
                         <div class="form-group">
                           <label class="label" for="subject">No. Telepon</label>
-                          <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone" placeholder="No. Telepon" readonly="readonly"  value="{{ Auth::user()->phone_number }}">
+                          <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="phone" placeholder="No. Telepon" required="required"  value="{{ Auth::user()->phone_number }}">
 
                       @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -164,7 +164,7 @@ label {
                     <div class="row mt-3 mb-3">
                       <div class="col-md-12">
                         <label class="label" for="#">Alamat Pengiriman</label>
-                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" placeholder="Alamat Pengiriman" readonly="readonly"  value="{{ strtoupper(Auth::user()->address) }}">
+                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" placeholder="Alamat Pengiriman" required="required"  value="{{ strtoupper(Auth::user()->address) }}">
 
                     @error('address')
                                     <span class="invalid-feedback" role="alert">
